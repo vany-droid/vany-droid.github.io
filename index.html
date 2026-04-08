@@ -74,7 +74,6 @@
             gap: 10px;
         }
 
-        /* Стиль для кнопок и ссылок */
         .link-item {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -114,13 +113,10 @@
     <p class="description">just a cool guy, learning C, know python</p>
 
     <div class="links">
-        <!-- Кнопка Telegram с прямой ссылкой -->
         <a href="http://t.me/tuxxsett" target="_blank" class="link-item">Telegram</a>
-        
-        <!-- Кнопка Discord с функцией копирования -->
         <div id="discord-btn" class="link-item">Discord</div>
-        
-        <a href="#" class="link-item">GitHub</a>
+        <!-- Обновленная ссылка на GitHub -->
+        <a href="https://github.com/vany-droid" target="_blank" class="link-item">GitHub</a>
     </div>
 
     <footer>
@@ -129,9 +125,8 @@
 </div>
 
 <script>
-    // --- Логика Discord копирования ---
     const discordBtn = document.getElementById('discord-btn');
-    const discordUser = "amsoluckylucky"; // Тот самый юзернейм
+    const discordUser = "amsoluckylucky";
 
     discordBtn.addEventListener('click', () => {
         navigator.clipboard.writeText(discordUser).then(() => {
@@ -146,7 +141,6 @@
         });
     });
 
-    // --- Логика Снега ---
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, snowflakes;
@@ -203,4 +197,3 @@
 
 </body>
 </html>
-
