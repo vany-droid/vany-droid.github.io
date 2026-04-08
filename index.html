@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guns.lol Style | Snow Effect</title>
+    <title>vany | Guns.lol</title>
     <style>
-        /* Основной темный фон */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: #050505;
             color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden; /* Скрываем прокрутку для снега */
+            overflow: hidden;
         }
 
-        /* Холст для снега на весь экран */
         #snow-canvas {
             position: fixed;
             top: 0;
@@ -27,10 +25,9 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none; /* Чтобы снег не мешал нажимать на кнопки */
+            pointer-events: none;
         }
 
-        /* Контентная карточка (Glassmorphism) */
         .card {
             position: relative;
             z-index: 1;
@@ -50,7 +47,7 @@
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #222, #444);
+            background: linear-gradient(45deg, #333, #111);
             margin: 0 auto 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
@@ -60,7 +57,7 @@
         }
 
         h1 {
-            font-size: 22px;
+            font-size: 26px;
             margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
@@ -77,15 +74,19 @@
             gap: 10px;
         }
 
+        /* Стиль для кнопок и ссылок */
         .link-item {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px;
+            padding: 14px;
             border-radius: 12px;
             color: #fff;
             text-decoration: none;
             font-size: 14px;
-            transition: 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            outline: none;
+            display: block;
         }
 
         .link-item:hover {
@@ -105,17 +106,20 @@
 </head>
 <body>
 
-<!-- Холст для анимации -->
 <canvas id="snow-canvas"></canvas>
 
 <div class="card">
     <div class="avatar">❄️</div>
-    <h1>@yourname</h1>
+    <h1>vany</h1>
     <p class="description">Digital enthusiast & Developer</p>
 
     <div class="links">
-        <a href="#" class="link-item">Telegram</a>
-        <a href="#" class="link-item">Discord</a>
+        <!-- Кнопка Telegram с прямой ссылкой -->
+        <a href="http://t.me/tuxxsett" target="_blank" class="link-item">Telegram</a>
+        
+        <!-- Кнопка Discord с функцией копирования -->
+        <div id="discord-btn" class="link-item">Discord</div>
+        
         <a href="#" class="link-item">GitHub</a>
     </div>
 
@@ -125,9 +129,26 @@
 </div>
 
 <script>
+    // --- Логика Discord копирования ---
+    const discordBtn = document.getElementById('discord-btn');
+    const discordUser = "amsoluckyl"; // Тот самый юзернейм
+
+    discordBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(discordUser).then(() => {
+            const originalText = discordBtn.innerText;
+            discordBtn.innerText = "Copied!";
+            discordBtn.style.borderColor = "#1abc9c";
+            
+            setTimeout(() => {
+                discordBtn.innerText = originalText;
+                discordBtn.style.borderColor = "rgba(255, 255, 255, 0.08)";
+            }, 2000);
+        });
+    });
+
+    // --- Логика Снега ---
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
-
     let width, height, snowflakes;
 
     function init() {
@@ -135,15 +156,13 @@
         height = window.innerHeight;
         canvas.width = width;
         canvas.height = height;
-
         snowflakes = [];
         for (let i = 0; i < 150; i++) {
             snowflakes.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
-                r: Math.random() * 3 + 1, // размер снежинки
-                d: Math.random() * 1,     // плотность/скорость
-                v: Math.random() * 1 + 0.5 // вертикальная скорость
+                r: Math.random() * 3 + 1,
+                v: Math.random() * 1 + 0.5
             });
         }
     }
@@ -165,10 +184,9 @@
         for (let i = 0; i < snowflakes.length; i++) {
             let p = snowflakes[i];
             p.y += p.v;
-            p.x += Math.sin(p.y / 50) * 0.5; // легкое покачивание
-
             if (p.y > height) {
-                snowflakes[i] = { x: Math.random() * width, y: -10, r: p.r, d: p.d, v: p.v };
+                p.y = -10;
+                p.x = Math.random() * width;
             }
         }
     }
